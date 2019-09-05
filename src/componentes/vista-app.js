@@ -1,8 +1,7 @@
 import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { } from '@polymer/polymer/lib/elements/dom-repeat.js';
-
-import './modal-box';
 import '@polymer/iron-ajax/iron-ajax.js';
+import './modal-box';
 
 
 class Vista extends PolymerElement {
@@ -28,41 +27,8 @@ class Vista extends PolymerElement {
         </modal-box>
         <h2>HOLA</h2>
       <button on-click="abrirModal">Abrir Modal</button>
-      <button on-tap="guardar">
-      Lista Pokemon
-      </button>
-      <dom-module>
-      
-      <dom-repeat items="{{lista}}">
-            <template>
-              <div>
-              [[index]]
-               [[item.name]]
-               </div>
-              </template>
-              <iron-ajax
-              auto
-              url="https://pokeapi.co/api/v2/pokemon/{{item.id}}"
-              handle-as="json"
-              last-response="{{item.id}}"
-              content-type="application/json"
-              on-response="respuestaRecibida"
-              debounce-Duration = "300"
-              >
-              </iron-ajax>
-              </dom-repeat>
-              </dom-module>
-              
-              <iron-ajax
-              auto
-              url="https://pokeapi.co/api/v2/pokemon/"
-              handle-as="json"
-              last-response="{{item.id}}"
-              content-type="application/json"
-              on-response="respuestaRecibida"
-              debounce-Duration = "300"
-              >
-              </iron-ajax>
+    
+    
     `;
   }
   static get properties() {
@@ -80,21 +46,7 @@ class Vista extends PolymerElement {
   }
 
 
-  respuestaRecibida(e, request) {
-    let response = request.response.results;
-    this.lista = response;
-    console.log(response);
-
-  }
-  errorRecibido(e, error) {
-    console.log(error.request);
-    this.mensaje = 'Error en la solicitud, con código ' + error.request.status;
-
-  }
-  guardar() {
-    this.$.elajax.generateRequest();
-  }
-
+  
   doClick() {
     this.prop1 = 'estamos aprendiendo polymer';
     this.contador++;
