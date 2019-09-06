@@ -1,7 +1,9 @@
-import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { } from '@polymer/polymer/lib/elements/dom-repeat.js';
 import '@polymer/iron-ajax/iron-ajax.js';
+import '@polymer/iron-collapse/iron-collapse.js';
 import '@polymer/paper-card/paper-card.js';
+import './modal-box';
 
 class Pokemon extends PolymerElement {
   static get properties() {
@@ -12,66 +14,89 @@ class Pokemon extends PolymerElement {
 
   static get template() {
     return html`
-    <paper-card heading="Emmental" image="http://placehold.it/350x150/FFC107/000000" alt="Emmental">
-    <div class="card-content">
-      Emmentaler or Emmental is a yellow, medium-hard cheese that originated in the area around Emmental, Switzerland. It is one of the cheeses of Switzerland, and is sometimes known as Swiss cheese.
-    </div>
-    <div class="card-actions">
-      
-    </div>
-  </paper-card>
-    Lista Pokemon    
     <dom-module>
-    <dom-repeat items="{{lista}}">
-    <template>
-    <ul>  
-    <li>
-    [[index]]
-    [[item.name]]
-    </li>
-    </ul>
-      
-        </template>
-          <iron-ajax
-            auto
-            url="https://pokeapi.co/api/v2/pokemon/"
-            handle-as="json"
-            last-response="{{item}}"
-            content-type="application/json"
-            on-response="respuestaRecibida"
-            debounce-Duration = "300"
-            >
-         </iron-ajax>
-         
-         <iron-ajax
-         auto
-         url="https://pokeapi.co/api/v2/pokemon/"
-         handle-as="json"
-         last-response="{{item.id}}"
-         content-type="application/json"
-         on-response="respuestaRecibida"
-         debounce-Duration = "300"
-         >
-      </iron-ajax>
-    </dom-repeat>
-    </dom-module>
+        <style>
+            div{
+              border-radius: 6px;
+              padding: 10px;
+              background-color: beige;
+              width: 120px;
+              text-align: center;
+              display:inline-block;
+            }
+         </style>
+
+              Lista Pokemon   
+              <iron-collapse id="collapse">
+              <div>Content goes here...</div>
+            </iron-collapse>
+            <div on-tap="buscar">
+              buscar
+            </div>
+            <dom-repeat items="{{pokemon}}">
+                <template>
+                    <ul>  
+                        <paper-card >
+                            <div class="card-content">
+                                [[item.name]]
+                                <br>
+                                
+                              </div>
+                        </paper-card>
+                      </ul>
+                  </template>
+              </dom-repeat>
+              <dom-repeat items="{{abilidades}}">
+              <template>
+                  <ul>  
+                    [[item.name]]
+                    </ul>
+                </template>
+            </dom-repeat>
+
+
+        <iron-ajax
+        auto
+          url="https://pokeapi.co/api/v2/pokemon/"
+          handle-as="json"
+          last-response="{{pokemon}}"
+          content-type="application/json"
+          on-response="listaNombres"
+          debounce-Duration = "300"
+          >
+       </iron-ajax>
+       
+       <iron-ajax
+       auto
+       url="https://pokeapi.co/api/v2/ability/"
+       handle-as="json"
+       last-response="{{abilidades}}"
+       content-type="application/json"
+       on-response="listaAbilidades"
+       debounce-Duration = "300"
+       >
+       </iron-ajax>
+       </dom-module>
     `;
   }
 
-  respuestaRecibida(e, request) {
+  listaNombres(e, request) {
     let response = request.response.results;
-    this.lista = response;
-
+    this.pokemon = response;
+    console.log(response)
   }
-  errorRecibido(e, error) {
-    console.log(error.request);
-    this.mensaje = 'Error en la solicitud, con código ' + error.request.status;
-
+  listaAbilidades(e, request) {
+    let response = request.response.results;
+    this.abilidades = response;
+    console.log(response)
   }
-  guardar() {
+  buscar() {
     this.$.elajax.generateRequest();
+  }
+  abrirModal() {
+    this.$.modal.open()
   }
 
 }
 
-customElements.define('pokemon-list', Pokemon);
+window.customElements.define('pokemon-list', Pokemon);

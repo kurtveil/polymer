@@ -17,15 +17,13 @@ class Vista extends PolymerElement {
            color:red;
         }
       </style>
-      <h2>Hello [[prop1]]!</h2>
-      <p>esto es polymer </p>
+      
       <button on-click="doClick">clic</button>
         [[contador]]
       <modal-box id="modal">
         <h2>ModalBox  con slot</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati labore iusto consequatur praesentium tempora ratione magnam reprehenderit natus nemo molestias! Fugiat, dolores dolorem. Ullam, sapiente natus? Molestiae beatae minima sunt.</p>
         </modal-box>
-        <h2>HOLA</h2>
       <button on-click="abrirModal">Abrir Modal</button>
     
     
@@ -48,7 +46,6 @@ class Vista extends PolymerElement {
 
   
   doClick() {
-    this.prop1 = 'estamos aprendiendo polymer';
     this.contador++;
   }
   abrirModal() {
